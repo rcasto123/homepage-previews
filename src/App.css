@@ -234,7 +234,7 @@ a:hover { text-decoration: underline; }
 
 .gallery-preview-mini > * {
   transform: scale(0.4);
-  transf/rm-origin: top left;
+  transform-origin: top left;
   width: 250%;
   height: 250%;
   pointer-events: none;
