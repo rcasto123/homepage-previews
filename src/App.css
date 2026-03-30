@@ -1102,3 +1102,18 @@ a:hover { text-decoration: underline; }
   .gallery-grid { grid-template-columns: 1fr; }
   .preview-header { flex-direction: column; gap: 12px; }
 }
+
+
+/* ─── Live Mode (robertcas.to) ─────────────────────────────────────── */
+.live-wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
+
+.live-wrapper .preview-frame {
+  width: 100%;
+  min-height: 100vh;
+  border-radius: 0;
+  border: none;
+}
