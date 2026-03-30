@@ -163,11 +163,8 @@ function HomepageV3() {
 function HomepageV4() {
   return (
     <div className="preview-frame v4-ghibli">
-      <div className="v4-sky">
-        <div className="v4-cloud v4-cloud-1"></div>
-        <div className="v4-cloud v4-cloud-2"></div>
-        <div className="v4-cloud v4-cloud-3"></div>
-      </div>
+      <div className="v4-bg-image"></div>
+      <div className="v4-bg-overlay"></div>
 
       <nav className="v4-nav">
         <span className="v4-logo">ロバート</span>
@@ -181,8 +178,6 @@ function HomepageV4() {
 
       <div className="v4-hero">
         <div className="v4-hero-content">
-          <div className="v4-leaf v4-leaf-1">🍃</div>
-          <div className="v4-leaf v4-leaf-2">🌿</div>
           <p className="v4-greeting">~ a journey through ~</p>
           <h1 className="v4-title">Robert Casto</h1>
           <div className="v4-title-underline"></div>
@@ -219,7 +214,6 @@ function HomepageV4() {
         </div>
       </div>
 
-      <div className="v4-grass"></div>
     </div>
   );
 }
