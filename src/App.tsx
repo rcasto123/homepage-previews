@@ -260,8 +260,23 @@ function App() {
   const [activeVersion, setActiveVersion] = useState<string>("v1");
   const [viewMode, setViewMode] = useState<ViewMode>("gallery");
 
+  // Live mode: when hosted on robertcas.to, show the "current" design full-screen
+  const isLiveSite = window.location.hostname === 'robertcas.to';
+  const isPreviewPath = window.location.pathname.startsWith('/previews');
+
   const active = versions.find((v) => v.id === activeVersion)!;
   const ActiveComponent = active.component;
+
+  // On robertcas.to (not /previews), render current design full-viewport
+  if (isLiveSite && !isPreviewPath) {
+    const current = versions.find((v) => v.status === "current")!;
+    const CurrentComponent = current.component;
+    return (
+      <div className="live-wrapper">
+        <CurrentComponent />
+      </div>
+    );
+  }
 
   if (viewMode === "fullscreen") {
     return (
