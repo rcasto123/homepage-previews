@@ -10,7 +10,7 @@ interface HomepageVersion {
   component: React.ComponentType;
 }
 
-// ─── Version 1: Current Cyberpunk Terminal ───────────────────────────
+// âââ Version 1: Current Cyberpunk Terminal âââââââââââââââââââââââââââ
 function HomepageV1() {
   return (
     <div className="preview-frame v1-cyberpunk">
@@ -52,7 +52,7 @@ function HomepageV1() {
   );
 }
 
-// ─── Version 2: Minimal Clean ────────────────────────────────────────
+// âââ Version 2: Minimal Clean ââââââââââââââââââââââââââââââââââââââââ
 function HomepageV2() {
   return (
     <div className="preview-frame v2-minimal">
@@ -108,7 +108,7 @@ function HomepageV2() {
   );
 }
 
-// ─── Version 3: Bold Gradient ────────────────────────────────────────
+// âââ Version 3: Bold Gradient ââââââââââââââââââââââââââââââââââââââââ
 function HomepageV3() {
   return (
     <div className="preview-frame v3-gradient">
@@ -159,12 +159,77 @@ function HomepageV3() {
   );
 }
 
-// ─── Main App ────────────────────────────────────────────────────────
+// âââ Version 4: Studio Ghibli âââââââââââââââââââââââââââââââââââââââ
+function HomepageV4() {
+  return (
+    <div className="preview-frame v4-ghibli">
+      <div className="v4-sky">
+        <div className="v4-cloud v4-cloud-1"></div>
+        <div className="v4-cloud v4-cloud-2"></div>
+        <div className="v4-cloud v4-cloud-3"></div>
+      </div>
+
+      <nav className="v4-nav">
+        <span className="v4-logo">ã­ãã¼ã</span>
+        <div className="v4-nav-links">
+          <a href="#">About</a>
+          <a href="#">Projects</a>
+          <a href="#">Resume</a>
+          <a href="#" className="v4-nav-contact">Say Hello</a>
+        </div>
+      </nav>
+
+      <div className="v4-hero">
+        <div className="v4-hero-content">
+          <div className="v4-leaf v4-leaf-1">ð</div>
+          <div className="v4-leaf v4-leaf-2">ð¿</div>
+          <p className="v4-greeting">~ a journey through ~</p>
+          <h1 className="v4-title">Robert Casto</h1>
+          <div className="v4-title-underline"></div>
+          <p className="v4-subtitle">
+            IT Operations Leader at <span className="v4-highlight">Aircall</span>
+          </p>
+          <p className="v4-description">
+            12+ years cultivating global IT operations like a sprawling garden
+            â growing teams from 200 to 2,800+ across three continents, nurturing
+            excellence in every corner of the world.
+          </p>
+          <div className="v4-cta-row">
+            <a href="#" className="v4-btn-primary">Explore My World &rarr;</a>
+            <a href="#" className="v4-btn-secondary">Download Resume</a>
+          </div>
+        </div>
+      </div>
+
+      <div className="v4-stats-row">
+        <div className="v4-stat-card">
+          <span className="v4-stat-icon">ð¸</span>
+          <span className="v4-stat-number">12+</span>
+          <span className="v4-stat-label">Years of Growth</span>
+        </div>
+        <div className="v4-stat-card">
+          <span className="v4-stat-icon">ðï¸</span>
+          <span className="v4-stat-number">2,800+</span>
+          <span className="v4-stat-label">People Supported</span>
+        </div>
+        <div className="v4-stat-card">
+          <span className="v4-stat-icon">ð</span>
+          <span className="v4-stat-number">3</span>
+          <span className="v4-stat-label">Continents</span>
+        </div>
+      </div>
+
+      <div className="v4-grass"></div>
+    </div>
+  );
+}
+
+// âââ Main App ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const versions: HomepageVersion[] = [
   {
     id: "v1",
     name: "Cyberpunk Terminal",
-    description: "Current live version — dark hacker terminal aesthetic with glitch effects",
+    description: "Current live version â dark hacker terminal aesthetic with glitch effects",
     date: "Mar 2026",
     status: "current",
     component: HomepageV1,
@@ -184,6 +249,14 @@ const versions: HomepageVersion[] = [
     date: "Mar 2026",
     status: "draft",
     component: HomepageV3,
+  },
+  {
+    id: "v4",
+    name: "Studio Ghibli",
+    description: "Warm watercolor aesthetic inspired by Studio Ghibli â soft pastels, nature motifs, and hand-drawn charm",
+    date: "Mar 2026",
+    status: "draft",
+    component: HomepageV4,
   },
 ];
 
