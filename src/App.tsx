@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 interface HomepageVersion {
@@ -225,7 +225,7 @@ const versions: HomepageVersion[] = [
     name: "Cyberpunk Terminal",
     description: "Current live version — dark hacker terminal aesthetic with glitch effects",
     date: "Mar 2026",
-    status: "current",
+    status: "draft",
     component: HomepageV1,
   },
   {
@@ -259,17 +259,53 @@ type ViewMode = "gallery" | "fullscreen";
 function App() {
   const [activeVersion, setActiveVersion] = useState<string>("v1");
   const [viewMode, setViewMode] = useState<ViewMode>("gallery");
+  const [liveDesign, setLiveDesign] = useState<string>("v1");
+  const [loading, setLoading] = useState(true);
+  const [switching, setSwitching] = useState<string | null>(null);
 
-  // Live mode: when hosted on robertcas.to, show the "current" design full-screen
   const isLiveSite = window.location.hostname === 'robertcas.to';
   const isPreviewPath = window.location.pathname.startsWith('/previews');
 
-  const active = versions.find((v) => v.id === activeVersion)!;
+  // Fetch the current live design from the Netlify Function
+  useEffect(() => {
+    fetch('/.netlify/functions/config')
+      .then(r => r.json())
+      .then(data => {
+        setLiveDesign(data.current || 'v1');
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  // Compute status dynamically
+  const versionsWithStatus = versions.map(v => ({
+    ...v,
+    status: (v.id === liveDesign ? "current" : "draft") as "current" | "draft" | "archived",
+  }));
+
+  const active = versionsWithStatus.find((v) => v.id === activeVersion)!;
   const ActiveComponent = active.component;
 
-  // On robertcas.to (not /previews), render current design full-viewport
+  // Handle "Make Live" button click
+  const handleMakeLive = async (designId: string) => {
+    setSwitching(designId);
+    try {
+      await fetch('/.netlify/functions/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ design: designId }),
+      });
+      setLiveDesign(designId);
+    } catch (e) {
+      console.error('Failed to update live design:', e);
+    }
+    setSwitching(null);
+  };
+
+  // Live mode: render the current design full-screen
   if (isLiveSite && !isPreviewPath) {
-    const current = versions.find((v) => v.status === "current")!;
+    if (loading) return null;
+    const current = versionsWithStatus.find(v => v.id === liveDesign) || versionsWithStatus[0];
     const CurrentComponent = current.component;
     return (
       <div className="live-wrapper">
@@ -309,7 +345,7 @@ function App() {
 
       {/* Tab Navigation */}
       <div className="tabs">
-        {versions.map((v) => (
+        {versionsWithStatus.map((v) => (
           <button
             key={v.id}
             className={`tab ${activeVersion === v.id ? "active" : ""}`}
@@ -329,9 +365,23 @@ function App() {
             <p className="preview-desc">{active.description}</p>
             <span className="preview-date">{active.date}</span>
           </div>
-          <button className="fullscreen-btn" onClick={() => setViewMode("fullscreen")}>
-            &#x26F6; Full Preview
-          </button>
+          <div className="preview-actions">
+            {active.status !== "current" && (
+              <button
+                className="make-live-btn"
+                onClick={() => handleMakeLive(active.id)}
+                disabled={switching !== null}
+              >
+                {switching === active.id ? "Deploying..." : "Make Live \u2192"}
+              </button>
+            )}
+            {active.status === "current" && (
+              <span className="live-indicator">\u2714 Currently Live</span>
+            )}
+            <button className="fullscreen-btn" onClick={() => setViewMode("fullscreen")}>
+              &#x26F6; Full Preview
+            </button>
+          </div>
         </div>
         <div className="preview-window">
           <div className="browser-chrome">
@@ -352,7 +402,7 @@ function App() {
       <div className="gallery-section">
         <h2 className="gallery-title">All Versions</h2>
         <div className="gallery-grid">
-          {versions.map((v) => {
+          {versionsWithStatus.map((v) => {
             const Comp = v.component;
             return (
               <div
@@ -379,5 +429,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
