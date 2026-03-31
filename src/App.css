@@ -1117,3 +1117,65 @@ a:hover { text-decoration: underline; }
   border-radius: 0;
   border: none;
 }
+
+
+/* ─── Live Mode (robertcas.to) ──────────────────────────────────── */
+.live-wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
+.live-wrapper .preview-frame {
+  width: 100%;
+  min-height: 100vh;
+  border-radius: 0;
+  border: none;
+}
+
+/* ─── Make Live Button & Actions ────────────────────────────────── */
+.preview-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.make-live-btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #00d68f, #00b87a);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+.make-live-btn:hover {
+  background: linear-gradient(135deg, #00e89e, #00c88a);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 214, 143, 0.3);
+}
+.make-live-btn:active {
+  transform: translateY(0);
+}
+.make-live-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(0, 214, 143, 0.12);
+  color: #00d68f;
+  border: 1px solid rgba(0, 214, 143, 0.25);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
