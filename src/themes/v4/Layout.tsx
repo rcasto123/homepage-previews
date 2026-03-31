@@ -8,6 +8,12 @@ export default function V4Layout() {
 
   return (
     <div className="v4-site">
+      {/* Ghibli cityscape background */}
+      <div className="v4-bg-wrapper">
+        <div className="v4-bg-image" />
+        <div className="v4-bg-overlay" />
+      </div>
+
       <nav className="v4-nav">
         <div className="v4-nav-left">
           <NavLink to={`${basePath}/`} className="v4-logo-link">

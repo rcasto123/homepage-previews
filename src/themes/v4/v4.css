@@ -54,12 +54,48 @@ body {
   position: relative;
 }
 
+/* ── Ghibli Background ──────────────────────────────── */
+.v4-bg-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.v4-bg-image {
+  position: absolute;
+  inset: -20px;
+  background: url('/Gemini_Generated_Image_azgg0dazgg0dazgg.png') center center / cover no-repeat;
+  animation: v4-bg-drift 30s ease-in-out infinite alternate;
+  filter: saturate(0.85) brightness(1.05);
+}
+.v4-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(250, 248, 240, 0.55) 0%,
+    rgba(250, 248, 240, 0.4) 30%,
+    rgba(250, 248, 240, 0.5) 60%,
+    rgba(250, 248, 240, 0.75) 100%
+  );
+  backdrop-filter: blur(1.5px);
+}
+@keyframes v4-bg-drift {
+  0% { transform: scale(1.05) translate(0, 0); }
+  25% { transform: scale(1.07) translate(-8px, -4px); }
+  50% { transform: scale(1.05) translate(4px, -8px); }
+  75% { transform: scale(1.06) translate(-4px, 4px); }
+  100% { transform: scale(1.05) translate(0, 0); }
+}
+
 .v4-main {
   flex: 1;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   padding: 3rem 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 /* ============================================================
@@ -71,8 +107,10 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 2rem;
-  background: linear-gradient(180deg, rgba(250, 248, 240, 0.95) 0%, rgba(250, 248, 240, 0.8) 100%);
+  background: linear-gradient(180deg, rgba(250, 248, 240, 0.92) 0%, rgba(250, 248, 240, 0.75) 100%);
   backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 2;
   border-bottom: 1px solid rgba(90, 70, 50, 0.1);
   position: sticky;
   top: 0;
@@ -175,9 +213,11 @@ body {
 .v4-footer {
   margin-top: 4rem;
   padding: 3rem 2rem;
-  background: linear-gradient(180deg, rgba(250, 248, 240, 0.5) 0%, rgba(250, 248, 240, 0.8) 100%);
+  background: linear-gradient(180deg, rgba(250, 248, 240, 0.5) 0%, rgba(250, 248, 240, 0.85) 100%);
   border-top: 1px solid rgba(90, 70, 50, 0.1);
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .v4-footer-divider {

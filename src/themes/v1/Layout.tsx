@@ -1,6 +1,7 @@
 import { Outlet, NavLink } from "react-router-dom";
 import { siteData } from "../../data/siteContent";
 import { useTheme } from "../../contexts/ThemeContext";
+import CyberGrid from "./CyberGrid";
 import "./v1.css";
 
 export default function V1Layout() {
@@ -8,6 +9,9 @@ export default function V1Layout() {
 
   return (
     <div className="v1-site">
+      {/* Animated perspective grid background */}
+      <CyberGrid />
+
       {/* Floating background terms */}
       <div className="v1-bg-terms">
         {siteData.floatingTerms.map((term, i) => (

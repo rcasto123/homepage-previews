@@ -4,7 +4,7 @@ export default function V1Home() {
   return (
     <div className="v1-page v1-home">
       <div className="v1-hero">
-        <h1 className="v1-glitch-title">{siteData.name.toUpperCase()}</h1>
+        <h1 className="v1-glitch-title" data-text={siteData.name.toUpperCase()}>{siteData.name.toUpperCase()}</h1>
         <div className="v1-terminal-prompt">root@robertcas.to:~$</div>
         <h2 className="v1-role-title">{siteData.title}</h2>
       </div>
