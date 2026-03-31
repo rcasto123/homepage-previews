@@ -1,2 +1,3 @@
 /projects/comebackbracket  http://comebackbracket.netlify.app  200!
 /projects/comebackbracket/*  https://comebackbracket.netlify.app/:splat  200!
+/*    /index.html   200
