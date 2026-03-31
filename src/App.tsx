@@ -4,6 +4,72 @@ import { themes, getTheme, type ThemeConfig } from "./themes/themeRegistry";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import "./App.css";
 
+// ─── Config API ────────────────────────────────────────
+const SITE_ID = "5790498e-105b-41ca-a977-5ff79ab69d23";
+const DEPLOY_TOKEN = (import.meta as any).env?.VITE_NETLIFY_TOKEN || "";
+
+async function fetchLiveDesign(): Promise<string> {
+  try {
+    const r = await fetch("/config.json?t=" + Date.now());
+    if (!r.ok) return "v1";
+    const data = await r.json();
+    return data.current || "v1";
+  } catch {
+    return "v1";
+  }
+}
+
+async function updateLiveDesign(designId: string): Promise<boolean> {
+  if (!DEPLOY_TOKEN) {
+    console.error("No deploy token configured");
+    return false;
+  }
+  try {
+    const configContent = JSON.stringify({ current: designId }, null, 2);
+    const sha1 = Array.from(
+      new Uint8Array(await crypto.subtle.digest("SHA-1", new TextEncoder().encode(configContent)))
+    ).map(b => b.toString(16).padStart(2, "0")).join("");
+
+    // Get current deploy's file manifest via the files endpoint
+    const siteResp = await fetch(`https://api.netlify.com/api/v1/sites/${SITE_ID}`, {
+      headers: { Authorization: `Bearer ${DEPLOY_TOKEN}` },
+    });
+    const site = await siteResp.json();
+    const deployId = site.published_deploy?.id;
+    if (!deployId) return false;
+
+    const filesResp = await fetch(`https://api.netlify.com/api/v1/deploys/${deployId}/files`, {
+      headers: { Authorization: `Bearer ${DEPLOY_TOKEN}` },
+    });
+    const fileList: { path: string; sha: string }[] = await filesResp.json();
+    const files: Record<string, string> = {};
+    for (const f of fileList) {
+      files[f.path] = f.sha;
+    }
+    files["/config.json"] = sha1;
+
+    // Create new deploy with updated config.json
+    const newDeployResp = await fetch(`https://api.netlify.com/api/v1/sites/${SITE_ID}/deploys`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${DEPLOY_TOKEN}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ files }),
+    });
+    const newDeploy = await newDeployResp.json();
+
+    if (newDeploy.required?.includes(sha1)) {
+      await fetch(`https://api.netlify.com/api/v1/deploys/${newDeploy.id}/files/config.json`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${DEPLOY_TOKEN}`, "Content-Type": "application/octet-stream" },
+        body: configContent,
+      });
+    }
+    return true;
+  } catch (e) {
+    console.error("Deploy failed:", e);
+    return false;
+  }
+}
+
 // ─── Loading Fallback ───────────────────────────────────
 function ThemeLoading() {
   return (
@@ -45,27 +111,16 @@ function Gallery() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/.netlify/functions/config")
-      .then((r) => r.json())
-      .then((data) => {
-        setLiveDesign(data.current || "v1");
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    fetchLiveDesign().then((design) => {
+      setLiveDesign(design);
+      setLoading(false);
+    });
   }, []);
 
   const handleMakeLive = async (designId: string) => {
     setSwitching(designId);
-    try {
-      await fetch("/.netlify/functions/config", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ design: designId }),
-      });
-      setLiveDesign(designId);
-    } catch (e) {
-      console.error("Failed to update live design:", e);
-    }
+    const ok = await updateLiveDesign(designId);
+    if (ok) setLiveDesign(designId);
     setSwitching(null);
   };
 
@@ -156,13 +211,10 @@ function LiveMode() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/.netlify/functions/config")
-      .then((r) => r.json())
-      .then((data) => {
-        setLiveDesign(data.current || "v1");
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    fetchLiveDesign().then((design) => {
+      setLiveDesign(design);
+      setLoading(false);
+    });
   }, []);
 
   if (loading) return null;
