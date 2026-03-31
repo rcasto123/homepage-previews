@@ -1,5 +1,2 @@
 /projects/comebackbracket  http://comebackbracket.netlify.app  200!
 /projects/comebackbracket/*  https://comebackbracket.netlify.app/:splat  200!
-
-# SPA fallback - serve index.html for all routes (React Router handles routing)
-/*    /index.html   200
