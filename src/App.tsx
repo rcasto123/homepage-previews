@@ -382,11 +382,11 @@ function App() {
                 onClick={() => handleMakeLive(active.id)}
                 disabled={switching !== null}
               >
-                {switching === active.id ? "Deploying..." : "Make Live \u2192"}
+                {switching === active.id ? "Deploying..." : "Make Live →"}
               </button>
             )}
             {active.status === "current" && (
-              <span className="live-indicator">\u2714 Currently Live</span>
+              <span className="live-indicator">✔ Currently Live</span>
             )}
             <button
               className="fullscreen-btn"
