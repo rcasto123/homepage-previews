@@ -1,9 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { siteData } from "../../data/siteContent";
+import { useTheme } from "../../contexts/ThemeContext";
 
 export default function V3Home() {
-  const location = useLocation();
-  const basePath = location.pathname.startsWith("/v3") ? "/v3" : "";
+  const { basePath } = useTheme();
 
   const features = [
     {

@@ -1,10 +1,10 @@
-import { Outlet, NavLink, useLocation } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import { siteData } from "../../data/siteContent";
+import { useTheme } from "../../contexts/ThemeContext";
 import "./v1.css";
 
 export default function V1Layout() {
-  const location = useLocation();
-  const basePath = location.pathname.startsWith("/v1") ? "/v1" : "";
+  const { basePath } = useTheme();
 
   return (
     <div className="v1-site">

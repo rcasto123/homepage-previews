@@ -1,9 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { siteData } from "../../data/siteContent";
+import { useTheme } from "../../contexts/ThemeContext";
 
 export default function V2Home() {
-  const location = useLocation();
-  const basePath = location.pathname.startsWith("/v2") ? "/v2" : "";
+  const { basePath } = useTheme();
 
   return (
     <div className="v2-home">
