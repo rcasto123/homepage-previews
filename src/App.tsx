@@ -1,270 +1,92 @@
 import { useState, useEffect } from "react";
+import { Routes, Route, useNavigate, useLocation, Link } from "react-router-dom";
 import "./App.css";
 
-interface HomepageVersion {
+// ─── Theme Layouts ──────────────────────────────────────
+import V1Layout from "./themes/v1/Layout";
+import V1Home from "./themes/v1/Home";
+import V1Projects from "./themes/v1/Projects";
+import V1Resume from "./themes/v1/Resume";
+import V1Dashboard from "./themes/v1/Dashboard";
+import V1Contact from "./themes/v1/Contact";
+
+import V2Layout from "./themes/v2/Layout";
+import V2Home from "./themes/v2/Home";
+import V2Projects from "./themes/v2/Projects";
+import V2Resume from "./themes/v2/Resume";
+import V2Dashboard from "./themes/v2/Dashboard";
+import V2Contact from "./themes/v2/Contact";
+
+import V3Layout from "./themes/v3/Layout";
+import V3Home from "./themes/v3/Home";
+import V3Projects from "./themes/v3/Projects";
+import V3Resume from "./themes/v3/Resume";
+import V3Dashboard from "./themes/v3/Dashboard";
+import V3Contact from "./themes/v3/Contact";
+
+import V4Layout from "./themes/v4/Layout";
+import V4Home from "./themes/v4/Home";
+import V4Projects from "./themes/v4/Projects";
+import V4Resume from "./themes/v4/Resume";
+import V4Dashboard from "./themes/v4/Dashboard";
+import V4Contact from "./themes/v4/Contact";
+
+// ─── Types ──────────────────────────────────────────────
+interface VersionInfo {
   id: string;
   name: string;
   description: string;
   date: string;
   status: "current" | "draft" | "archived";
-  component: React.ComponentType;
+  path: string;
+  pages: string[];
 }
 
-// âââ Version 1: Current Cyberpunk Terminal âââââââââââââââââââââââââââ
-function HomepageV1() {
-  return (
-    <div className="preview-frame v1-cyberpunk">
-      <nav className="v1-nav">
-        <div className="v1-nav-left">
-          <span className="v1-logo">RC</span>
-          <span className="v1-site-name">ROBERTCAS.TO</span>
-        </div>
-        <div className="v1-nav-right">
-          <a href="#">RESUME</a>
-          <a href="#">PROJECTS</a>
-          <a href="#">DASHBOARD</a>
-          <a href="#">LINKEDIN</a>
-          <a href="#" className="v1-contact-btn">CONTACT</a>
-        </div>
-      </nav>
-
-      <div className="v1-status-bar">
-        <span className="v1-status-dot"></span>
-        <span>SYS.STATUS: ONLINE</span>
-        <span className="v1-breadcrumb">// Aircall &gt; Global IT Operations</span>
-      </div>
-
-      <div className="v1-hero">
-        <h1 className="v1-glitch-title">ROBERT CASTO</h1>
-        <div className="v1-terminal-prompt">root@robertcas.to:~$</div>
-        <h2 className="v1-role-title">IT Operations Leader</h2>
-      </div>
-
-      <div className="v1-divider"></div>
-
-      <p className="v1-bio">
-        With 12+ years building and scaling global IT operations, I've led the
-        journey from 200 to 2,800+ employees, driving service excellence and SLA
-        compliance across the US, Europe, and Australia. I specialize in building
-        high-performing, globally distributed teams.
-      </p>
-    </div>
-  );
-}
-
-// âââ Version 2: Minimal Clean ââââââââââââââââââââââââââââââââââââââââ
-function HomepageV2() {
-  return (
-    <div className="preview-frame v2-minimal">
-      <nav className="v2-nav">
-        <span className="v2-name">Robert Casto</span>
-        <div className="v2-nav-links">
-          <a href="#">About</a>
-          <a href="#">Projects</a>
-          <a href="#">Resume</a>
-          <a href="#">Contact</a>
-        </div>
-      </nav>
-
-      <div className="v2-hero">
-        <div className="v2-hero-content">
-          <p className="v2-greeting">Hey, I'm</p>
-          <h1 className="v2-title">Robert Casto</h1>
-          <p className="v2-subtitle">
-            IT Operations Leader at <span className="v2-highlight">Aircall</span>
-          </p>
-          <p className="v2-description">
-            12+ years scaling global IT operations across the US, Europe, and
-            Australia. Building high-performing teams and designing support
-            models that grow with the business.
-          </p>
-          <div className="v2-cta-row">
-            <a href="#" className="v2-btn-primary">View Projects</a>
-            <a href="#" className="v2-btn-secondary">Download Resume</a>
-          </div>
-        </div>
-        <div className="v2-hero-visual">
-          <div className="v2-avatar-ring">
-            <div className="v2-avatar-placeholder">RC</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="v2-stats">
-        <div className="v2-stat">
-          <span className="v2-stat-number">12+</span>
-          <span className="v2-stat-label">Years Experience</span>
-        </div>
-        <div className="v2-stat">
-          <span className="v2-stat-number">2,800+</span>
-          <span className="v2-stat-label">Employees Supported</span>
-        </div>
-        <div className="v2-stat">
-          <span className="v2-stat-number">3</span>
-          <span className="v2-stat-label">Continents</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// âââ Version 3: Bold Gradient ââââââââââââââââââââââââââââââââââââââââ
-function HomepageV3() {
-  return (
-    <div className="preview-frame v3-gradient">
-      <nav className="v3-nav">
-        <span className="v3-logo">RC</span>
-        <div className="v3-nav-links">
-          <a href="#">Work</a>
-          <a href="#">About</a>
-          <a href="#">Resume</a>
-          <a href="#" className="v3-nav-contact">Get in Touch</a>
-        </div>
-      </nav>
-
-      <div className="v3-hero">
-        <div className="v3-tag">IT Operations &bull; Global Teams &bull; Aircall</div>
-        <h1 className="v3-title">
-          I build &amp; scale<br />
-          <span className="v3-gradient-text">IT operations</span><br />
-          that just work.
-        </h1>
-        <p className="v3-subtitle">
-          From 200 to 2,800+ employees across 3 continents. Designing systems,
-          developing talent, and driving SLA compliance at scale.
-        </p>
-        <div className="v3-cta-row">
-          <a href="#" className="v3-btn">See My Work &rarr;</a>
-        </div>
-      </div>
-
-      <div className="v3-cards">
-        <div className="v3-card">
-          <div className="v3-card-icon">&#9881;</div>
-          <h3>Operations</h3>
-          <p>Global IT infrastructure &amp; support</p>
-        </div>
-        <div className="v3-card">
-          <div className="v3-card-icon">&#128101;</div>
-          <h3>Leadership</h3>
-          <p>High-performing distributed teams</p>
-        </div>
-        <div className="v3-card">
-          <div className="v3-card-icon">&#128200;</div>
-          <h3>Strategy</h3>
-          <p>SLA compliance &amp; automation</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// âââ Version 4: Studio Ghibli âââââââââââââââââââââââââââââââââââââââ
-function HomepageV4() {
-  return (
-    <div className="preview-frame v4-ghibli">
-      <div className="v4-bg-image"></div>
-      <div className="v4-bg-overlay"></div>
-
-      <nav className="v4-nav">
-        <span className="v4-logo">ã­ãã¼ã</span>
-        <div className="v4-nav-links">
-          <a href="#">About</a>
-          <a href="#">Projects</a>
-          <a href="#">Resume</a>
-          <a href="#" className="v4-nav-contact">Say Hello</a>
-        </div>
-      </nav>
-
-      <div className="v4-hero">
-        <div className="v4-hero-content">
-          <p className="v4-greeting">~ a journey through ~</p>
-          <h1 className="v4-title">Robert Casto</h1>
-          <div className="v4-title-underline"></div>
-          <p className="v4-subtitle">
-            IT Operations Leader at <span className="v4-highlight">Aircall</span>
-          </p>
-          <p className="v4-description">
-            12+ years cultivating global IT operations like a sprawling garden
-            â growing teams from 200 to 2,800+ across three continents, nurturing
-            excellence in every corner of the world.
-          </p>
-          <div className="v4-cta-row">
-            <a href="#" className="v4-btn-primary">Explore My World &rarr;</a>
-            <a href="#" className="v4-btn-secondary">Download Resume</a>
-          </div>
-        </div>
-      </div>
-
-      <div className="v4-stats-row">
-        <div className="v4-stat-card">
-          <span className="v4-stat-icon">ð¸</span>
-          <span className="v4-stat-number">12+</span>
-          <span className="v4-stat-label">Years of Growth</span>
-        </div>
-        <div className="v4-stat-card">
-          <span className="v4-stat-icon">ðï¸</span>
-          <span className="v4-stat-number">2,800+</span>
-          <span className="v4-stat-label">People Supported</span>
-        </div>
-        <div className="v4-stat-card">
-          <span className="v4-stat-icon">ð</span>
-          <span className="v4-stat-number">3</span>
-          <span className="v4-stat-label">Continents</span>
-        </div>
-      </div>
-
-    </div>
-  );
-}
-
-// âââ Main App ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-const versions: HomepageVersion[] = [
+const versions: VersionInfo[] = [
   {
     id: "v1",
     name: "Cyberpunk Terminal",
-    description: "Current live version â dark hacker terminal aesthetic with glitch effects",
+    description: "Dark hacker terminal aesthetic with glitch effects and monospace typography",
     date: "Mar 2026",
     status: "draft",
-    component: HomepageV1,
+    path: "/v1",
+    pages: ["Home", "Projects", "Resume", "Dashboard", "Contact"],
   },
   {
     id: "v2",
     name: "Minimal Clean",
-    description: "Clean, modern layout with stats section and clear CTAs",
+    description: "Clean, modern layout with clear typography and professional feel",
     date: "Mar 2026",
     status: "draft",
-    component: HomepageV2,
+    path: "/v2",
+    pages: ["Home", "Projects", "Resume", "Dashboard", "Contact"],
   },
   {
     id: "v3",
     name: "Bold Gradient",
-    description: "Eye-catching gradient text with card-based skills layout",
+    description: "Eye-catching gradient text with dark glass-morphism cards",
     date: "Mar 2026",
     status: "draft",
-    component: HomepageV3,
+    path: "/v3",
+    pages: ["Home", "Projects", "Resume", "Dashboard", "Contact"],
   },
   {
     id: "v4",
     name: "Studio Ghibli",
-    description: "Warm watercolor aesthetic inspired by Studio Ghibli â soft pastels, nature motifs, and hand-drawn charm",
+    description: "Warm watercolor aesthetic with soft pastels and nature motifs",
     date: "Mar 2026",
     status: "draft",
-    component: HomepageV4,
+    path: "/v4",
+    pages: ["Home", "Projects", "Resume", "Dashboard", "Contact"],
   },
 ];
 
-type ViewMode = "gallery" | "fullscreen";
-
-function App() {
-  const [activeVersion, setActiveVersion] = useState<string>("v1");
-  const [viewMode, setViewMode] = useState<ViewMode>("gallery");
+// ─── Gallery / Preview Hub ──────────────────────────────
+function Gallery() {
   const [liveDesign, setLiveDesign] = useState<string>("v1");
   const [loading, setLoading] = useState(true);
   const [switching, setSwitching] = useState<string | null>(null);
-
-  const isLiveSite = window.location.hostname === "robertcas.to";
-  const isPreviewPath = window.location.pathname.startsWith("/previews");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/.netlify/functions/config")
@@ -278,10 +100,7 @@ function App() {
 
   const versionsWithStatus = versions.map((v) => ({
     ...v,
-    status: (v.id === liveDesign ? "current" : "draft") as
-      | "current"
-      | "draft"
-      | "archived",
+    status: (v.id === liveDesign ? "current" : "draft") as "current" | "draft" | "archived",
   }));
 
   const handleMakeLive = async (designId: string) => {
@@ -299,42 +118,10 @@ function App() {
     setSwitching(null);
   };
 
-  // Live mode: full-screen current design on robertcas.to
-  if (isLiveSite && !isPreviewPath) {
-    if (loading) return null;
-    const current =
-      versionsWithStatus.find((v) => v.id === liveDesign) ||
-      versionsWithStatus[0];
-    const CurrentComponent = current.component;
+  if (loading) {
     return (
-      <div className="live-wrapper">
-        <CurrentComponent />
-      </div>
-    );
-  }
-
-  const active =
-    versionsWithStatus.find((v) => v.id === activeVersion) ||
-    versionsWithStatus[0];
-  const ActiveComponent = active.component;
-
-  if (viewMode === "fullscreen") {
-    return (
-      <div className="fullscreen-wrapper">
-        <div className="fullscreen-bar">
-          <button onClick={() => setViewMode("gallery")} className="back-btn">
-            &larr; Back to Gallery
-          </button>
-          <span className="fullscreen-label">
-            {active.name}
-            <span className={`status-badge ${active.status}`}>
-              {active.status}
-            </span>
-          </span>
-        </div>
-        <div className="fullscreen-preview">
-          <ActiveComponent />
-        </div>
+      <div className="app loading-state">
+        <div className="loading-spinner">Loading designs...</div>
       </div>
     );
   }
@@ -349,93 +136,60 @@ function App() {
           <h1 className="app-title">Homepage Previews</h1>
         </div>
         <p className="app-subtitle">
-          Test and compare different homepage designs
+          Full multi-page site previews &mdash; click any design to explore all pages
         </p>
       </header>
 
-      {/* Tab Navigation */}
-      <div className="tabs">
+      <div className="gallery-grid-main">
         {versionsWithStatus.map((v) => (
-          <button
-            key={v.id}
-            className={`tab ${activeVersion === v.id ? "active" : ""}`}
-            onClick={() => setActiveVersion(v.id)}
-          >
-            <span className="tab-name">{v.name}</span>
-            <span className={`status-badge ${v.status}`}>{v.status}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Active Preview */}
-      <div className="preview-container">
-        <div className="preview-header">
-          <div>
-            <h2 className="preview-title">{active.name}</h2>
-            <p className="preview-desc">{active.description}</p>
-            <span className="preview-date">{active.date}</span>
-          </div>
-          <div className="preview-actions">
-            {active.status !== "current" && (
-              <button
-                className="make-live-btn"
-                onClick={() => handleMakeLive(active.id)}
-                disabled={switching !== null}
-              >
-                {switching === active.id ? "Deploying..." : "Make Live →"}
-              </button>
-            )}
-            {active.status === "current" && (
-              <span className="live-indicator">✔ Currently Live</span>
-            )}
-            <button
-              className="fullscreen-btn"
-              onClick={() => setViewMode("fullscreen")}
-            >
-              &#x26F6; Full Preview
-            </button>
-          </div>
-        </div>
-        <div className="preview-window">
-          <div className="browser-chrome">
-            <div className="browser-dots">
-              <span className="dot red"></span>
-              <span className="dot yellow"></span>
-              <span className="dot green"></span>
-            </div>
-            <div className="browser-url">robertcas.to</div>
-          </div>
-          <div className="browser-content">
-            <ActiveComponent />
-          </div>
-        </div>
-      </div>
-
-      {/* Gallery Grid */}
-      <div className="gallery-section">
-        <h2 className="gallery-title">All Versions</h2>
-        <div className="gallery-grid">
-          {versionsWithStatus.map((v) => {
-            const Comp = v.component;
-            return (
-              <div
-                key={v.id}
-                className={`gallery-card ${activeVersion === v.id ? "selected" : ""}`}
-                onClick={() => setActiveVersion(v.id)}
-              >
-                <div className="gallery-preview-mini">
-                  <Comp />
-                </div>
-                <div className="gallery-card-info">
-                  <span className="gallery-card-name">{v.name}</span>
-                  <span className={`status-badge small ${v.status}`}>
-                    {v.status}
-                  </span>
-                </div>
+          <div key={v.id} className="gallery-main-card">
+            <div className="gallery-main-header">
+              <div>
+                <h2 className="gallery-main-name">{v.name}</h2>
+                <p className="gallery-main-desc">{v.description}</p>
               </div>
-            );
-          })}
-        </div>
+              <div className="gallery-main-badges">
+                <span className={`status-badge ${v.status}`}>{v.status}</span>
+                <span className="gallery-date">{v.date}</span>
+              </div>
+            </div>
+
+            <div className="gallery-pages">
+              {v.pages.map((page) => {
+                const pagePath = page === "Home" ? "" : `/${page.toLowerCase()}`;
+                return (
+                  <Link
+                    key={page}
+                    to={`${v.path}${pagePath}`}
+                    className="gallery-page-link"
+                  >
+                    {page}
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div className="gallery-main-actions">
+              <button
+                className="gallery-explore-btn"
+                onClick={() => navigate(v.path)}
+              >
+                Explore Full Site &rarr;
+              </button>
+              {v.status !== "current" ? (
+                <button
+                  className="make-live-btn"
+                  onClick={() => handleMakeLive(v.id)}
+                  disabled={switching !== null}
+                >
+                  {switching === v.id ? "Deploying..." : "Make Live"}
+                </button>
+              ) : (
+                <span className="live-indicator">&#10004; Currently Live</span>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
 
       <footer className="app-footer">
@@ -445,6 +199,130 @@ function App() {
         </p>
       </footer>
     </div>
+  );
+}
+
+// ─── Live Mode Wrapper ──────────────────────────────────
+// When accessed from robertcas.to (not /previews), render the current live design full-screen
+function LiveMode() {
+  const [liveDesign, setLiveDesign] = useState<string>("v1");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/.netlify/functions/config")
+      .then((r) => r.json())
+      .then((data) => {
+        setLiveDesign(data.current || "v1");
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  if (loading) return null;
+
+  // Render the appropriate theme's routes as the live site
+  const themeRoutes: Record<string, React.ReactNode> = {
+    v1: (
+      <Routes>
+        <Route element={<V1Layout />}>
+          <Route index element={<V1Home />} />
+          <Route path="projects" element={<V1Projects />} />
+          <Route path="resume" element={<V1Resume />} />
+          <Route path="dashboard" element={<V1Dashboard />} />
+          <Route path="contact" element={<V1Contact />} />
+        </Route>
+      </Routes>
+    ),
+    v2: (
+      <Routes>
+        <Route element={<V2Layout />}>
+          <Route index element={<V2Home />} />
+          <Route path="projects" element={<V2Projects />} />
+          <Route path="resume" element={<V2Resume />} />
+          <Route path="dashboard" element={<V2Dashboard />} />
+          <Route path="contact" element={<V2Contact />} />
+        </Route>
+      </Routes>
+    ),
+    v3: (
+      <Routes>
+        <Route element={<V3Layout />}>
+          <Route index element={<V3Home />} />
+          <Route path="projects" element={<V3Projects />} />
+          <Route path="resume" element={<V3Resume />} />
+          <Route path="dashboard" element={<V3Dashboard />} />
+          <Route path="contact" element={<V3Contact />} />
+        </Route>
+      </Routes>
+    ),
+    v4: (
+      <Routes>
+        <Route element={<V4Layout />}>
+          <Route index element={<V4Home />} />
+          <Route path="projects" element={<V4Projects />} />
+          <Route path="resume" element={<V4Resume />} />
+          <Route path="dashboard" element={<V4Dashboard />} />
+          <Route path="contact" element={<V4Contact />} />
+        </Route>
+      </Routes>
+    ),
+  };
+
+  return <div className="live-wrapper">{themeRoutes[liveDesign]}</div>;
+}
+
+// ─── Main App ───────────────────────────────────────────
+function App() {
+  const isLiveSite = window.location.hostname === "robertcas.to";
+  const location = useLocation();
+
+  // On robertcas.to: if not explicitly visiting /previews or /v*, render live mode
+  if (isLiveSite && !location.pathname.startsWith("/previews") && !location.pathname.startsWith("/v1") && !location.pathname.startsWith("/v2") && !location.pathname.startsWith("/v3") && !location.pathname.startsWith("/v4")) {
+    return <LiveMode />;
+  }
+
+  return (
+    <Routes>
+      {/* Gallery */}
+      <Route path="/" element={<Gallery />} />
+      <Route path="/previews" element={<Gallery />} />
+
+      {/* V1: Cyberpunk Terminal */}
+      <Route path="/v1" element={<V1Layout />}>
+        <Route index element={<V1Home />} />
+        <Route path="projects" element={<V1Projects />} />
+        <Route path="resume" element={<V1Resume />} />
+        <Route path="dashboard" element={<V1Dashboard />} />
+        <Route path="contact" element={<V1Contact />} />
+      </Route>
+
+      {/* V2: Minimal Clean */}
+      <Route path="/v2" element={<V2Layout />}>
+        <Route index element={<V2Home />} />
+        <Route path="projects" element={<V2Projects />} />
+        <Route path="resume" element={<V2Resume />} />
+        <Route path="dashboard" element={<V2Dashboard />} />
+        <Route path="contact" element={<V2Contact />} />
+      </Route>
+
+      {/* V3: Bold Gradient */}
+      <Route path="/v3" element={<V3Layout />}>
+        <Route index element={<V3Home />} />
+        <Route path="projects" element={<V3Projects />} />
+        <Route path="resume" element={<V3Resume />} />
+        <Route path="dashboard" element={<V3Dashboard />} />
+        <Route path="contact" element={<V3Contact />} />
+      </Route>
+
+      {/* V4: Studio Ghibli */}
+      <Route path="/v4" element={<V4Layout />}>
+        <Route index element={<V4Home />} />
+        <Route path="projects" element={<V4Projects />} />
+        <Route path="resume" element={<V4Resume />} />
+        <Route path="dashboard" element={<V4Dashboard />} />
+        <Route path="contact" element={<V4Contact />} />
+      </Route>
+    </Routes>
   );
 }
 
