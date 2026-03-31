@@ -10,7 +10,7 @@ interface HomepageVersion {
   component: React.ComponentType;
 }
 
-// ─── Version 1: Current Cyberpunk Terminal ───────────────────────────
+// âââ Version 1: Current Cyberpunk Terminal âââââââââââââââââââââââââââ
 function HomepageV1() {
   return (
     <div className="preview-frame v1-cyberpunk">
@@ -52,7 +52,7 @@ function HomepageV1() {
   );
 }
 
-// ─── Version 2: Minimal Clean ────────────────────────────────────────
+// âââ Version 2: Minimal Clean ââââââââââââââââââââââââââââââââââââââââ
 function HomepageV2() {
   return (
     <div className="preview-frame v2-minimal">
@@ -108,7 +108,7 @@ function HomepageV2() {
   );
 }
 
-// ─── Version 3: Bold Gradient ────────────────────────────────────────
+// âââ Version 3: Bold Gradient ââââââââââââââââââââââââââââââââââââââââ
 function HomepageV3() {
   return (
     <div className="preview-frame v3-gradient">
@@ -159,7 +159,7 @@ function HomepageV3() {
   );
 }
 
-// ─── Version 4: Studio Ghibli ───────────────────────────────────────
+// âââ Version 4: Studio Ghibli âââââââââââââââââââââââââââââââââââââââ
 function HomepageV4() {
   return (
     <div className="preview-frame v4-ghibli">
@@ -167,7 +167,7 @@ function HomepageV4() {
       <div className="v4-bg-overlay"></div>
 
       <nav className="v4-nav">
-        <span className="v4-logo">ロバート</span>
+        <span className="v4-logo">ã­ãã¼ã</span>
         <div className="v4-nav-links">
           <a href="#">About</a>
           <a href="#">Projects</a>
@@ -186,7 +186,7 @@ function HomepageV4() {
           </p>
           <p className="v4-description">
             12+ years cultivating global IT operations like a sprawling garden
-            — growing teams from 200 to 2,800+ across three continents, nurturing
+            â growing teams from 200 to 2,800+ across three continents, nurturing
             excellence in every corner of the world.
           </p>
           <div className="v4-cta-row">
@@ -198,17 +198,17 @@ function HomepageV4() {
 
       <div className="v4-stats-row">
         <div className="v4-stat-card">
-          <span className="v4-stat-icon">🌸</span>
+          <span className="v4-stat-icon">ð¸</span>
           <span className="v4-stat-number">12+</span>
           <span className="v4-stat-label">Years of Growth</span>
         </div>
         <div className="v4-stat-card">
-          <span className="v4-stat-icon">🏔️</span>
+          <span className="v4-stat-icon">ðï¸</span>
           <span className="v4-stat-number">2,800+</span>
           <span className="v4-stat-label">People Supported</span>
         </div>
         <div className="v4-stat-card">
-          <span className="v4-stat-icon">🌍</span>
+          <span className="v4-stat-icon">ð</span>
           <span className="v4-stat-number">3</span>
           <span className="v4-stat-label">Continents</span>
         </div>
@@ -218,12 +218,12 @@ function HomepageV4() {
   );
 }
 
-// ─── Main App ────────────────────────────────────────────────────────
+// âââ Main App ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const versions: HomepageVersion[] = [
   {
     id: "v1",
     name: "Cyberpunk Terminal",
-    description: "Current live version — dark hacker terminal aesthetic with glitch effects",
+    description: "Current live version â dark hacker terminal aesthetic with glitch effects",
     date: "Mar 2026",
     status: "draft",
     component: HomepageV1,
@@ -247,7 +247,7 @@ const versions: HomepageVersion[] = [
   {
     id: "v4",
     name: "Studio Ghibli",
-    description: "Warm watercolor aesthetic inspired by Studio Ghibli — soft pastels, nature motifs, and hand-drawn charm",
+    description: "Warm watercolor aesthetic inspired by Studio Ghibli â soft pastels, nature motifs, and hand-drawn charm",
     date: "Mar 2026",
     status: "draft",
     component: HomepageV4,
@@ -263,49 +263,48 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [switching, setSwitching] = useState<string | null>(null);
 
-  const isLiveSite = window.location.hostname === 'robertcas.to';
-  const isPreviewPath = window.location.pathname.startsWith('/previews');
+  const isLiveSite = window.location.hostname === "robertcas.to";
+  const isPreviewPath = window.location.pathname.startsWith("/previews");
 
-  // Fetch the current live design from the Netlify Function
   useEffect(() => {
-    fetch('/.netlify/functions/config')
-      .then(r => r.json())
-      .then(data => {
-        setLiveDesign(data.current || 'v1');
+    fetch("/.netlify/functions/config")
+      .then((r) => r.json())
+      .then((data) => {
+        setLiveDesign(data.current || "v1");
         setLoading(false);
       })
       .catch(() => setLoading(false));
   }, []);
 
-  // Compute status dynamically
-  const versionsWithStatus = versions.map(v => ({
+  const versionsWithStatus = versions.map((v) => ({
     ...v,
-    status: (v.id === liveDesign ? "current" : "draft") as "current" | "draft" | "archived",
+    status: (v.id === liveDesign ? "current" : "draft") as
+      | "current"
+      | "draft"
+      | "archived",
   }));
 
-  const active = versionsWithStatus.find((v) => v.id === activeVersion)!;
-  const ActiveComponent = active.component;
-
-  // Handle "Make Live" button click
   const handleMakeLive = async (designId: string) => {
     setSwitching(designId);
     try {
-      await fetch('/.netlify/functions/config', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      await fetch("/.netlify/functions/config", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ design: designId }),
       });
       setLiveDesign(designId);
     } catch (e) {
-      console.error('Failed to update live design:', e);
+      console.error("Failed to update live design:", e);
     }
     setSwitching(null);
   };
 
-  // Live mode: render the current design full-screen
+  // Live mode: full-screen current design on robertcas.to
   if (isLiveSite && !isPreviewPath) {
     if (loading) return null;
-    const current = versionsWithStatus.find(v => v.id === liveDesign) || versionsWithStatus[0];
+    const current =
+      versionsWithStatus.find((v) => v.id === liveDesign) ||
+      versionsWithStatus[0];
     const CurrentComponent = current.component;
     return (
       <div className="live-wrapper">
@@ -313,6 +312,11 @@ function App() {
       </div>
     );
   }
+
+  const active =
+    versionsWithStatus.find((v) => v.id === activeVersion) ||
+    versionsWithStatus[0];
+  const ActiveComponent = active.component;
 
   if (viewMode === "fullscreen") {
     return (
@@ -323,7 +327,9 @@ function App() {
           </button>
           <span className="fullscreen-label">
             {active.name}
-            <span className={`status-badge ${active.status}`}>{active.status}</span>
+            <span className={`status-badge ${active.status}`}>
+              {active.status}
+            </span>
           </span>
         </div>
         <div className="fullscreen-preview">
@@ -337,10 +343,14 @@ function App() {
     <div className="app">
       <header className="app-header">
         <div className="header-left">
-          <a href="https://robertcas.to" className="header-back">&larr; robertcas.to</a>
+          <a href="https://robertcas.to" className="header-back">
+            &larr; robertcas.to
+          </a>
           <h1 className="app-title">Homepage Previews</h1>
         </div>
-        <p className="app-subtitle">Test and compare different homepage designs</p>
+        <p className="app-subtitle">
+          Test and compare different homepage designs
+        </p>
       </header>
 
       {/* Tab Navigation */}
@@ -378,7 +388,10 @@ function App() {
             {active.status === "current" && (
               <span className="live-indicator">\u2714 Currently Live</span>
             )}
-            <button className="fullscreen-btn" onClick={() => setViewMode("fullscreen")}>
+            <button
+              className="fullscreen-btn"
+              onClick={() => setViewMode("fullscreen")}
+            >
               &#x26F6; Full Preview
             </button>
           </div>
@@ -415,7 +428,9 @@ function App() {
                 </div>
                 <div className="gallery-card-info">
                   <span className="gallery-card-name">{v.name}</span>
-                  <span className={`status-badge small ${v.status}`}>{v.status}</span>
+                  <span className={`status-badge small ${v.status}`}>
+                    {v.status}
+                  </span>
                 </div>
               </div>
             );
@@ -424,11 +439,13 @@ function App() {
       </div>
 
       <footer className="app-footer">
-        <p>robertcas.to Homepage Previews &bull; <a href="https://robertcas.to">Back to main site</a></p>
+        <p>
+          robertcas.to Homepage Previews &bull;{" "}
+          <a href="https://robertcas.to">Back to main site</a>
+        </p>
       </footer>
     </div>
   );
 }
-
 
 export default App;
